@@ -206,7 +206,74 @@ if ros_cluster_cloud is not None:
     # This is the output you'll need to complete the upcoming project!
     detected_objects_pub.publish(detected_objects)
 ```
-For object recognition, features should be extracted. I modified catpure_features.py to have these new training models for the project and to increase the number of the test data.
+For object recognition, features are extracted using `compute_color_histograms` and `compute_normal_histograms` in sensor_stick/features.py.
+```
+def compute_color_histograms(cloud, using_hsv=False):
+
+    # Compute histograms for the clusters
+    point_colors_list = []
+
+    # Step through each point in the point cloud
+    for point in pc2.read_points(cloud, skip_nans=True):
+        rgb_list = float_to_rgb(point[3])
+        if using_hsv:
+            point_colors_list.append(rgb_to_hsv(rgb_list) * 255)
+        else:
+            point_colors_list.append(rgb_list)
+
+    # Populate lists with color values
+    channel_1_vals = []
+    channel_2_vals = []
+    channel_3_vals = []
+
+    for color in point_colors_list:
+        channel_1_vals.append(color[0])
+        channel_2_vals.append(color[1])
+        channel_3_vals.append(color[2])
+    
+    # DONE: Compute histograms
+    r_hist = np.histogram(channel_1_vals, bins=32, range=(0, 256))
+    g_hist = np.histogram(channel_2_vals, bins=32, range=(0, 256))
+    b_hist = np.histogram(channel_3_vals, bins=32, range=(0, 256))
+
+    # DONE: Concatenate and normalize the histograms
+    hist_features = np.concatenate((r_hist[0], g_hist[0], b_hist[0])).astype(np.float64)
+    norm_features = hist_features / np.sum(hist_features)
+
+    # Generate random features for demo mode.  
+    # Replace normed_features with your feature vector
+    #normed_features = np.random.random(96) 
+    return norm_features 
+
+
+def compute_normal_histograms(normal_cloud):
+    norm_x_vals = []
+    norm_y_vals = []
+    norm_z_vals = []
+
+    for norm_component in pc2.read_points(normal_cloud,
+                                          field_names = ('normal_x', 'normal_y', 'normal_z'),
+                                          skip_nans=True):
+        norm_x_vals.append(norm_component[0])
+        norm_y_vals.append(norm_component[1])
+        norm_z_vals.append(norm_component[2])
+
+    # DONE: Compute histograms of normal values (just like with color)
+    x_hist = np.histogram(norm_x_vals, bins=32, range=(0, 256))
+    y_hist = np.histogram(norm_y_vals, bins=32, range=(0, 256))
+    z_hist = np.histogram(norm_z_vals, bins=32, range=(0, 256))
+
+    # DONE: Concatenate and normalize the histograms
+    hist_features = np.concatenate((x_hist[0], y_hist[0], z_hist[0])).astype(np.float64)
+    norm_features = hist_features / np.sum(hist_features)
+
+    # Generate random features for demo mode.  
+    # Replace normed_features with your feature vector
+    #normed_features = np.random.random(96)
+
+    return norm_features
+```
+I also modified sensor_stick/catpure_features.py to have new training models for the project and to increase the number of the test data.
 ```
 models = [\
        'biscuits',
@@ -252,4 +319,4 @@ The results are 100%, 80% and 100% in test_scene_num 1,2,3 respectively.
 ![scene2](images/scene2.png)
 ![scene3](images/scene3.png)
 
-I think the accuracy would be increased with the larger number of test data and tuning parameter of SVM.
+I think the accuracy would be increased with the larger number of test data and tuning parameters of SVM.
