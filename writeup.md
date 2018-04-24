@@ -236,7 +236,7 @@ rosrun sensor_stick capture_features.py
 rosrun sensor_stick train_svm.py
 ```
 The result was like this.
-![svm](svm.png)
+![svm](images/svm.png)
 
 ### Pick and Place Setup
 
@@ -248,8 +248,8 @@ roslaunch pr2_robot pick_place_project.launch test_scene_num:=1
 rosrun pr2_robot project_template.py
 ```
 The results are 100%, 80% and 100% in test_scene_num 1,2,3 respectively.
-![scene1](scene1.png)
-![scene2](scene2.png)
-![scene3](scene3.png)
+![scene1](images/scene1.png)
+![scene2](images/scene2.png)
+![scene3](images/scene3.png)
 
 I think the accuracy would be increased with the larger number of test data and tuning parameter of SVM.
