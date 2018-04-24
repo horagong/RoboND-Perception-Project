@@ -106,6 +106,8 @@ PR2Motion::PR2Motion(ros::NodeHandle nh)
   right_move_group.setNamedTarget("RIGHT_ARM_INITIAL_POSE");
   left_move_group.setNamedTarget("LEFT_ARM_INITIAL_POSE");
 
+  moveit::planning_interface::MoveGroupInterface::Plan right_arm_plan, left_arm_plan;
+
   bool right_success = right_move_group.move() == moveit::planning_interface::MoveItErrorCode::SUCCESS;
   bool left_success = left_move_group.move() == moveit::planning_interface::MoveItErrorCode::SUCCESS;
 
