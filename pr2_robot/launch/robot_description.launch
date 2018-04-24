@@ -8,10 +8,10 @@
   </node-->
 
   <!--Publish robot state to TF-->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
     <remap from="/joint_states" to="/pr2/joint_states" />
   </node>
 
-  <node name="joint_state_relay" pkg="topic_tools" type="relay"
+  <node name="joint_state_relay" pkg="topic_tools" type="relay" output="screen"
     args="/pr2/joint_states /joint_states"/>
 </launch>

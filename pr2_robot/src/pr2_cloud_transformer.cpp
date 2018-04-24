@@ -119,6 +119,7 @@ private:
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "pr2_point_cloud_tf");
+	ROS_INFO("pr2_cloud_transformer ----------------------------------------------------");
   ros::NodeHandle nh;
 
   CloudTransformer tranform_cloud(nh);

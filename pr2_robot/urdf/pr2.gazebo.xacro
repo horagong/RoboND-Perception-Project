@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <plugin name="gazebo_ros_control" filename="/opt/ros/lunar/lib/libgazebo_ros_control.so">
       <robotNamespace>/pr2</robotNamespace>
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
@@ -26,7 +26,7 @@
          <far>9</far>
        </clip>
      </camera>
-     <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
+     <plugin name="camera_controller" filename="/opt/ros/lunar/lib/libgazebo_ros_openni_kinect.so">
        <baseline>0.1</baseline>
        <alwaysOn>true</alwaysOn>
        <updateRate>15.0</updateRate>
@@ -50,7 +50,7 @@
 
   <!-- grasp plugin -->
   <gazebo>
-    <plugin name="gazebo_grasp_fix" filename="libgazebo_grasp_fix.so">
+    <plugin name="gazebo_grasp_fix" filename="/opt/ros/lunar/lib/libgazebo_grasp_fix.so">
       <arm>
         <arm_name>pr2_right_arm</arm_name>
         <palm_link>right_wrist_roll_link</palm_link>
